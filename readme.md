@@ -1,7 +1,7 @@
 # E01 GUID Extractor
 
 A forensic tool for extracting GPT disk GUIDs from E01 (EnCase) image files and converting them to hex format.
-
+![E01 GUID Extractor Screenshot](screenshot.png)
 ## Overview
 
 This Bash script extracts the GPT (GUID Partition Table) disk identifier from E01 forensic images and displays it in multiple formats:

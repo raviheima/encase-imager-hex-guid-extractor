@@ -3,7 +3,7 @@
 ################################################################################
 # E01 GUID Extractor Script
 # Purpose: Extract GPT Disk GUID from EnCase/E01 forensic images
-# Author: RaviHeima
+# Author: Ravi Heima
 # Usage: ./e01-guid-extract.sh <path_to_image.E01>
 ################################################################################
 
@@ -66,18 +66,27 @@ install_dependencies() {
 }
 
 validate_e01_file() {
-    if [ -z "$1" ]; then
-        print_error "Usage: $0 <image.E01>"
+    local file="$1"
+    
+    if [ -z "$file" ]; then
+        print_error "No E01 image file specified"
+        echo ""
+        echo -e "${YELLOW}Usage:${NC}"
+        echo -e "  $0 ${BLUE}<path_to_image.E01>${NC}"
+        echo ""
+        echo -e "${YELLOW}Example:${NC}"
+        echo -e "  sudo $0 /path/to/2020JimmyWilson.E01"
+        echo ""
         exit 1
     fi
     
-    if [ ! -f "$1" ]; then
-        print_error "File not found: $1"
+    if [ ! -f "$file" ]; then
+        print_error "File not found: $file"
         exit 1
     fi
     
-    if [ ! -r "$1" ]; then
-        print_error "File not readable: $1"
+    if [ ! -r "$file" ]; then
+        print_error "File not readable: $file"
         exit 1
     fi
     print_success "File validated"
@@ -99,10 +108,14 @@ trap cleanup EXIT
 clear
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 echo -e "${BLUE}          E01 GPT DISK GUID EXTRACTOR${NC}"
-echo -e "${BLUE}                 By RAVIHEIMA ${NC}"
+echo -e "${BLUE}                 By RAVIHEIMA${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 echo -e "${YELLOW}Command:${NC} $0 $*"
 echo ""
+
+# Validate input FIRST (before accessing $1)
+E01_FILE="${1:-}"
+validate_e01_file "$E01_FILE"
 
 # Check dependencies
 if ! command -v ewfmount &>/dev/null || ! command -v gdisk &>/dev/null || ! command -v python3 &>/dev/null; then
@@ -112,10 +125,6 @@ if ! command -v ewfmount &>/dev/null || ! command -v gdisk &>/dev/null || ! comm
     install_dependencies
     echo
 fi
-
-# Validate input
-E01_FILE="$1"
-validate_e01_file "$E01_FILE"
 
 # Create mount point
 MOUNT_POINT=$(mktemp -d -t e01_XXXXXX)

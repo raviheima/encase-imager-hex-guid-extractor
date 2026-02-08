@@ -50,7 +50,14 @@ The script automatically installs these dependencies:
 
 ```bash
 # Clone or download the script
-wget https://raw.githubusercontent.com/raviheima/encase-imager-hex-guid-extractor/main/e01-guid-extract.sh
+wget https://raw.githubusercontent.com/raviheima/encase-imager-hex-guid-extractor/refs/heads/main/e01_guid_extract.sh
 
 # Make it executable
 chmod +x e01-guid-extract.sh
+
+```
+# Extract GUID from forensic image
+./e01_guid_extract.sh /path/to/2020JimmyWilson.E01
+#Note: run with sudo to install dependencies (first usage)
+sudo ./e01_guid_extract.sh /path/to/2020JimmyWilson.E01
+
